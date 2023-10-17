@@ -12,7 +12,7 @@ mv target/shipping-1.0.jar shipping.jar
 
 
 dnf install mysql -y
-mysql -h 172.31.23.146 -uroot -pRoboShop@1 < /app/schema/shipping.sql
+mysql -h mysql.akhildevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql
 
 
 systemctl daemon-reload
