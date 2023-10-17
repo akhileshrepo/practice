@@ -13,7 +13,7 @@ cd /app
 npm install
 
 dnf install mongodb-org-shell -y
-mongo --host mongodb.akhildevops.online </app/schema/user.js
+mongo --host 172.31.22.169 </app/schema/user.js
 
 systemctl daemon-reload
 systemctl enable user
