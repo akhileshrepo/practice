@@ -28,6 +28,24 @@ func_systemD() {
   systemctl restart ${component}  &>>${log}
 }
 
+func_schema_setup() {
+  if [ "${schema_setup}" == "mongodb"]; then
+    echo -e "\e[36m>>>>>>>>>>> Install Mongodb client <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+    dnf install mongodb-org-shell -y &>>${log}
+
+    echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+    mongo --host 172.31.22.169 </app/schema/${component}.js  &>>${log}
+  fi
+
+  if [ "${schema_setup}" == "mysql"]; then
+      echo -e "\e[36m>>>>>>>>>>> Install Mysql client <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+      dnf install mysql -y &>>${log}
+
+      echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
+      mysql -h 172.31.31.253 -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+  fi
+}
+
 func_nodejs() {
   log=/tmp/roboshop.log
 
@@ -45,11 +63,7 @@ func_nodejs() {
   echo -e "\e[36m>>>>>>>>>>> Download Nodejs dependencies <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   npm install &>>${log}
 
-  echo -e "\e[36m>>>>>>>>>>> Install Mongo client <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  dnf install mongodb-org-shell -y &>>${log}
-
-  echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  mongo --host 172.31.22.169 </app/schema/${component}.js  &>>${log}
+  func_schema_setup
 
   func_systemD
 }
@@ -66,11 +80,7 @@ func_java() {
   mvn clean package &>>${log}
   mv target/${component}-1.0.jar ${component}.jar &>>${log}
 
-  echo -e "\e[36m>>>>>>>>>>> Install Mysql client <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  dnf install mysql -y &>>${log}
-
-  echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  mysql -h 172.31.31.253 -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+  func_schema_setup
 
   func_systemD
 }
