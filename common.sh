@@ -34,7 +34,7 @@ func_schema_setup() {
     dnf install mongodb-org-shell -y &>>${log}
 
     echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-    mongo --host 172.31.22.169 </app/schema/${component}.js  &>>${log}
+    mongo --host 172.31.20.41 </app/schema/${component}.js  &>>${log}
   fi
 
   if [ "${schema_setup}" == "mysql"]; then
@@ -42,7 +42,7 @@ func_schema_setup() {
       dnf install mysql -y &>>${log}
 
       echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-      mysql -h 172.31.31.253 -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+      mysql -h 172.31.31.50 -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
   fi
 }
 
