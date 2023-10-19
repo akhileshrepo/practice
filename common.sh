@@ -80,7 +80,7 @@ func_python() {
   echo -e "\e[36m>>>>>>>>>>> Build ${component}  service<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   dnf install python36 gcc python3-devel -y
 
-  func_prerreq
+  func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>> Install ${component} service <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   pip3.6 install -r requirements.txt
