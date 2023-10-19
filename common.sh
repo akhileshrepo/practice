@@ -58,19 +58,19 @@ func_java() {
 
 
   echo -e "\e[36m>>>>>>>>>>> Install Maven <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  dnf install maven -y
+  dnf install maven -y &>>${log}
 
   func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>> Download Maven dependencies <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  mvn clean package
-  mv target/${component}-1.0.jar ${component}.jar
+  mvn clean package &>>${log}
+  mv target/${component}-1.0.jar ${component}.jar &>>${log}
 
   echo -e "\e[36m>>>>>>>>>>> Install Mysql client <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  dnf install mysql -y
+  dnf install mysql -y &>>${log}
 
   echo -e "\e[36m>>>>>>>>>>> Load schema <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  mysql -h 172.31.31.253 -uroot -pRoboShop@1 < /app/schema/${component}.sql
+  mysql -h 172.31.31.253 -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
 
   func_systemD
 }
@@ -78,12 +78,12 @@ func_java() {
 func_python() {
 
   echo -e "\e[36m>>>>>>>>>>> Build ${component}  service<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  dnf install python36 gcc python3-devel -y
+  dnf install python36 gcc python3-devel -y &>>${log}
 
   func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>> Install ${component} service <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
-  pip3.6 install -r requirements.txt
+  pip3.6 install -r requirements.txt &>>${log}
 
   func_systemD
 
