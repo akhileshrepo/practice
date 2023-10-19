@@ -55,7 +55,7 @@ func_nodejs() {
 }
 
 func_java() {
-
+  log=/tmp/roboshop.log
 
   echo -e "\e[36m>>>>>>>>>>> Install Maven <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   dnf install maven -y &>>${log}
@@ -76,7 +76,7 @@ func_java() {
 }
 
 func_python() {
-
+  log=/tmp/roboshop.log
   echo -e "\e[36m>>>>>>>>>>> Build ${component}  service<<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
   dnf install python36 gcc python3-devel -y &>>${log}
 
