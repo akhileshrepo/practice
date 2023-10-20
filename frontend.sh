@@ -19,8 +19,7 @@ func_exit_status
 
 echo -e "\e[36m>>>>>>>>>>> Extract the app content <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 unzip /tmp/frontend.zip &>>${log}
-vim /etc/nginx/default.d/nginx-roboshop.config
-func_exit_status
+
 
 echo -e "\e[36m>>>>>>>>>>> start nginx service <<<<<<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 systemctl enable nginx  &>>${log}
