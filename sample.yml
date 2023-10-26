@@ -1,5 +1,5 @@
 - name: Install nginx
-  hosts: ALL
+  hosts: WEB
   become: true
   tasks:
     - name: Install nginx
@@ -11,4 +11,11 @@
       ansible.builtin.systemd:
         name: nginx
         state: started
-        enabled: true
+        enabled: yes
+
+- name: Install nginx
+  hosts: WEB
+  become: true
+  roles:
+    - sample
+
